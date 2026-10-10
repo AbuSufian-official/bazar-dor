@@ -22,6 +22,11 @@ export default function SignIn() {
         });
 
     }
+    async function handelGithubSingin() {
+        const data = await authClient.signIn.social({
+            provider: "github"
+        })
+    }
 
 
 
@@ -92,7 +97,7 @@ export default function SignIn() {
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                             {/* Google Button */}
                             <button
-                            onClick={handelGoogleSingin}
+                                onClick={handelGoogleSingin}
                                 type="button"
                                 className="flex items-center justify-center gap-2 py-2.5 px-3 bg-[#FAFBF9] hover:bg-gray-100 border border-gray-200 rounded-xl text-xs font-semibold text-gray-700 transition-colors"
                             >
@@ -119,6 +124,7 @@ export default function SignIn() {
 
                             {/* GitHub Button */}
                             <button
+                                onClick={handelGithubSingin}
                                 type="button"
                                 className="flex items-center justify-center gap-2 py-2.5 px-3 bg-[#FAFBF9] hover:bg-gray-100 border border-gray-200 rounded-xl text-xs font-semibold text-gray-700 transition-colors"
                             >
