@@ -20,7 +20,7 @@ export default function SignIn() {
         const data = await authClient.signIn.social({
             provider: "google",
         });
-
+        
     }
     async function handelGithubSingin() {
         const data = await authClient.signIn.social({

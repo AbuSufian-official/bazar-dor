@@ -1,4 +1,4 @@
-import { Suspense } from "react";
+
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navber from "./components/navber";
@@ -29,15 +29,11 @@ export default function RootLayout({ children }) {
     >
       <body className="min-h-full flex flex-col">
         <Navber/>
-        <Suspense fallback={<div className="h-10 border-t border-[#F0F5F0] animate-pulse bg-gray-50/50" />}>
           <CatagoryManu/>
-        </Suspense>
-        <Suspense fallback={<div className="h-10 border py-2 border-[#E1E8E1] animate-pulse bg-gray-50/50" />}>
           <Marquee/>
-        </Suspense>
-        <div className="flex-1">
+        
           {children}
-        </div>
+        
         <Footer/>
       </body>
     </html>
