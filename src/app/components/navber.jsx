@@ -54,7 +54,7 @@ function Navber() {
                             <div 
                                 tabIndex={0} 
                                 role="button"
-                                className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full border border-gray-200 hover:border-emerald-300 hover:bg-gray-50 transition cursor-pointer"
+                                className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full    hover:bg-gray-50 transition cursor-pointer"
                             >
                                 <div className='w-7 h-7 rounded-full bg-emerald-50 flex items-center justify-center overflow-hidden shrink-0 border border-emerald-100'>
                                     <Image src='/bazar-hero.png' alt='profile-pic' width={24} height={24} className="object-contain" />
