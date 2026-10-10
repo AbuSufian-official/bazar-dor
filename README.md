@@ -47,10 +47,3 @@ local market before making a purchase.
 
 ------------------------------------------------------------------------
 
-```{=html}
-<p align="center">
-```
-Made with ❤️ for easier everyday shopping in Bangladesh.
-```{=html}
-</p>
-```
