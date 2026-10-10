@@ -1,9 +1,27 @@
+"use client"
 import React from 'react';
-
+import { authClient } from '@/lib/auth-client';
+import Link from 'next/link';
 export default function SignIn() {
+
+    let handelSingIn = async (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target)
+        const user = Object.fromEntries(formData.entries())
+        
+        const { data, error } = await authClient.signIn.email({
+            email: user.email, 
+            password:user.password, 
+            rememberMe: true, 
+            callbackURL: process.env.BETTER_AUTH_URL, 
+        });
+        console.log(data, error)
+
+
+    }
     return (
         <div className='container mx-auto px-2'>
-            <form>
+            <form onSubmit={handelSingIn}>
                 <div className="min-h-screen bg-[#F3F6F3] flex flex-col justify-center items-center px-4 py-8 sm:py-12 font-sans">
 
                     {/* Header Title & Subtitle */}
@@ -25,6 +43,7 @@ export default function SignIn() {
                                 ইমেইল
                             </label>
                             <input
+                                name='email'
                                 type="email"
                                 placeholder="you@example.com"
                                 className="w-full px-3.5 py-2.5 bg-[#FAFBF9] border border-gray-200 rounded-xl text-xs sm:text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition"
@@ -37,6 +56,7 @@ export default function SignIn() {
                                 পাসওয়ার্ড
                             </label>
                             <input
+                                name='password'
                                 type="password"
                                 placeholder="কমপক্ষে ৮ অক্ষর"
                                 className="w-full px-3.5 py-2.5 bg-[#FAFBF9] border border-gray-200 rounded-xl text-xs sm:text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition"
@@ -45,7 +65,7 @@ export default function SignIn() {
 
                         {/* Primary Action Button */}
                         <button
-                            type="submite"
+                            type="submit"
                             className="w-full py-3 mt-2 bg-[#008A45] hover:bg-[#007339] text-white font-bold text-xs sm:text-sm rounded-xl transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:ring-offset-1"
                         >
                             সাইন ইন
@@ -101,20 +121,20 @@ export default function SignIn() {
                         {/* No Account Link */}
                         <div className="text-center pt-2 text-xs sm:text-sm font-medium text-gray-600">
                             অ্যাকাউন্ট নেই?{' '}
-                            <a href="#" className="text-[#008A45] hover:underline font-bold">
+                            <Link href="/singUp" className="text-[#008A45] hover:underline font-bold">
                                 সাইন আপ করুন
-                            </a>
+                            </Link>
                         </div>
                     </div>
 
                     {/* Back to Home Page Link */}
                     <div className="mt-6 text-center">
-                        <a
-                            href="#"
+                        <Link
+                            href="/"
                             className="text-xs sm:text-sm font-medium text-gray-500 hover:text-gray-800 transition-colors inline-flex items-center gap-1"
                         >
                             <span>←</span> হোম পেজে ফিরে যান
-                        </a>
+                        </Link>
                     </div>
 
                 </div>

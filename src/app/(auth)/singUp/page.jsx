@@ -1,93 +1,128 @@
-import React from 'react';
+"use client"
+import { authClient } from '@/lib/auth-client';
+import Link from 'next/link';
+import React, { useState } from 'react';
 
 function SignUp() {
+    let [check, setCheck] = useState(true)
+    let handelSubmit = async (e) => {
+        e.preventDefault();
+        if ((e.target[3].value == e.target[2].value) === false) {
+            setCheck(false)
+            return
+        }
+        setCheck(true)
+        const formData = new FormData(e.target)
+        const user = Object.fromEntries(formData.entries())
+        const { data, error } = await authClient.signUp.email({
+            name: user.name, 
+            email: user.email, 
+            password: user.password, 
+            callbackURL: process.env.BETTER_AUTH_URL, 
+        });
+        console.log(data,error)
+
+
+    }
+
     return (
         <div className='container px-2 mx-auto'>
-            <form>
-                <div className="min-h-screen bg-[#F3F6F3] flex flex-col justify-center items-center px-4 py-8 sm:py-12 font-sans">
+            <form onSubmit={handelSubmit}>
 
-                    {/* Header Title & Subtitle */}
-                    <div className="text-center mb-6 space-y-2">
-                        <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">
+                <div className="min-h-screen bg-[#f3f6f3] flex flex-col items-center justify-center p-4 text-gray-800">
+
+                    {/* Header Section */}
+                    <div className="text-center mb-6">
+                        <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
                             অ্যাকাউন্ট তৈরি করুন
                         </h1>
-                        <p className="text-xs sm:text-sm text-gray-500 font-medium">
+                        <p className="text-sm text-gray-600">
                             বিনা খরচে সাইন আপ করে সব বিস্তারিত দাম দেখুন।
                         </p>
                     </div>
 
                     {/* Main Form Card */}
-                    <div className="w-full max-w-md bg-white rounded-2xl p-6 sm:p-8 border border-gray-100 shadow-sm space-y-4">
+                    <div className="bg-white w-full max-w-md rounded-2xl p-6 sm:p-8 shadow-sm border border-gray-100">
+
 
                         {/* Name Field */}
-                        <div className="space-y-1.5">
-                            <label className="block text-xs sm:text-sm font-semibold text-gray-700">
+                        <div>
+                            <label className="block text-sm font-semibold text-gray-700 mb-1.5">
                                 নাম
                             </label>
                             <input
+                                name='name'
                                 type="text"
                                 placeholder="যেমন: রহিম উদ্দিন"
-                                className="w-full px-3.5 py-2.5 bg-[#FAFBF9] border border-gray-200 rounded-xl text-xs sm:text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition"
+                                className="w-full px-3.5 py-2.5 rounded-lg border border-gray-200 text-sm focus:outline-none focus:border-emerald-600 transition-colors placeholder:text-gray-400 bg-gray-50/50"
                             />
                         </div>
 
                         {/* Email Field */}
-                        <div className="space-y-1.5">
-                            <label className="block text-xs sm:text-sm font-semibold text-gray-700">
+                        <div>
+                            <label className="block text-sm font-semibold text-gray-700 mb-1.5">
                                 ইমেইল
                             </label>
                             <input
+                                name='email'
                                 type="email"
                                 placeholder="you@example.com"
-                                className="w-full px-3.5 py-2.5 bg-[#FAFBF9] border border-gray-200 rounded-xl text-xs sm:text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition"
+                                className="w-full px-3.5 py-2.5 rounded-lg border border-gray-200 text-sm focus:outline-none focus:border-emerald-600 transition-colors placeholder:text-gray-400 bg-gray-50/50"
                             />
                         </div>
 
                         {/* Password Field */}
-                        <div className="space-y-1.5">
-                            <label className="block text-xs sm:text-sm font-semibold text-gray-700">
-                                পাসওয়ার্ড
+                        <div>
+                            <label className="block text-sm font-semibold text-gray-700 mb-1.5">
+                                পাসওয়ার্ড
                             </label>
                             <input
+                                name='password'
                                 type="password"
                                 placeholder="কমপক্ষে ৮ অক্ষর"
-                                className="w-full px-3.5 py-2.5 bg-[#FAFBF9] border border-gray-200 rounded-xl text-xs sm:text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition"
+
+                                className="w-full px-3.5 py-2.5 rounded-lg border border-gray-200 text-sm focus:outline-none focus:border-emerald-600 transition-colors placeholder:text-gray-400 bg-gray-50/50"
                             />
                         </div>
 
                         {/* Confirm Password Field */}
-                        <div className="space-y-1.5">
-                            <label className="block text-xs sm:text-sm font-semibold text-gray-700">
-                                পাসওয়ার্ড নিশ্চিত করুন
+                        <div>
+                            <label className="block text-sm font-semibold text-gray-700 mb-1.5">
+                                পাসওয়ার্ড নিশ্চিত করুন
                             </label>
                             <input
+                                name='confirmpassword'
                                 type="password"
                                 placeholder="আবার লিখুন"
-                                className="w-full px-3.5 py-2.5 bg-[#FAFBF9] border border-gray-200 rounded-xl text-xs sm:text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition"
+                                className="w-full px-3.5 py-2.5 rounded-lg border border-gray-200 text-sm focus:outline-none focus:border-emerald-600 transition-colors placeholder:text-gray-400 bg-gray-50/50"
                             />
+                            <p className={check ? `hidden` : `block text-red-600`} >আপনি ভুল পাসওয়ার্ড লিখেছেন।</p>
                         </div>
 
-                        {/* Primary Action Button */}
+                        {/* Submit Button */}
                         <button
+
                             type="submit"
-                            className="w-full py-3 mt-2 bg-[#008A45] hover:bg-[#007339] text-white font-bold text-xs sm:text-sm rounded-xl transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:ring-offset-1"
+                            className="w-full mt-2 py-3 bg-[#008744] hover:bg-[#00753a] text-white font-medium rounded-lg text-sm transition-colors shadow-sm"
                         >
                             অ্যাকাউন্ট তৈরি করুন
                         </button>
 
+
                         {/* Divider */}
-                        <div className="relative flex py-2 items-center justify-center">
-                            <div className="grow border-t border-gray-200"></div>
-                            <span className="shrink mx-3 text-xs text-gray-400 font-medium">অথবা</span>
-                            <div className="grow border-t border-gray-200"></div>
+                        <div className="relative my-6 flex items-center justify-center">
+                            <div className="border-t border-gray-200 w-full"></div>
+                            <span className="bg-white px-3 text-xs text-gray-500 absolute">
+                                অথবা
+                            </span>
                         </div>
 
-                        {/* Social Login Buttons */}
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                        {/* Social Signup Buttons */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                             {/* Google Button */}
                             <button
                                 type="button"
-                                className="flex items-center justify-center gap-2 py-2.5 px-3 bg-[#FAFBF9] hover:bg-gray-100 border border-gray-200 rounded-xl text-xs font-semibold text-gray-700 transition-colors"
+                                className="flex items-center justify-center gap-2 py-2.5 px-3 border border-gray-200 rounded-lg text-xs font-semibold text-gray-700 hover:bg-gray-50 transition-colors"
                             >
                                 <svg className="w-4 h-4" viewBox="0 0 24 24">
                                     <path
@@ -113,9 +148,9 @@ function SignUp() {
                             {/* GitHub Button */}
                             <button
                                 type="button"
-                                className="flex items-center justify-center gap-2 py-2.5 px-3 bg-[#FAFBF9] hover:bg-gray-100 border border-gray-200 rounded-xl text-xs font-semibold text-gray-700 transition-colors"
+                                className="flex items-center justify-center gap-2 py-2.5 px-3 border border-gray-200 rounded-lg text-xs font-semibold text-gray-700 hover:bg-gray-50 transition-colors"
                             >
-                                <svg className="w-4 h-4 fill-gray-800" viewBox="0 0 24 24">
+                                <svg className="w-4 h-4 fill-current text-gray-800" viewBox="0 0 24 24">
                                     <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
                                 </svg>
                                 <span>GitHub দিয়ে চালিয়ে যান</span>
@@ -123,25 +158,25 @@ function SignUp() {
                         </div>
 
                         {/* Existing Account Link */}
-                        <div className="text-center pt-2 text-xs sm:text-sm font-medium text-gray-600">
+                        <div className="mt-6 text-center text-xs text-gray-600">
                             অ্যাকাউন্ট আছে?{' '}
-                            <a href="#" className="text-[#008A45] hover:underline font-bold">
+                            <Link href="/singIn" className="text-[#008744] font-semibold hover:underline">
                                 সাইন ইন করুন
-                            </a>
+                            </Link>
                         </div>
                     </div>
 
-                    {/* Back to Home Page Link */}
+                    {/* Back to Home Link */}
                     <div className="mt-6 text-center">
-                        <a
-                            href="#"
-                            className="text-xs sm:text-sm font-medium text-gray-500 hover:text-gray-800 transition-colors inline-flex items-center gap-1"
-                        >
+                        <Link href="/" className="text-xs text-gray-500 hover:text-gray-700 transition-colors flex items-center gap-1">
                             <span>←</span> হোম পেজে ফিরে যান
-                        </a>
+                        </Link>
                     </div>
 
                 </div>
+
+
+
             </form>
 
 
@@ -150,3 +185,4 @@ function SignUp() {
     );
 }
 export default SignUp
+

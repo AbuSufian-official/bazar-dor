@@ -3,12 +3,33 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { FaUser } from "react-icons/fa";
 import { BsArrowReturnLeft } from "react-icons/bs";
-
+import { authClient } from '@/lib/auth-client';
+import { router } from 'better-auth/api';
+import { use } from 'react';
 
 function Navber() {
     let time = new Date().toLocaleDateString("bn-BD", {
         dateStyle: 'full'
     })
+    let handelSingOut = async () => {
+        await authClient.signOut()
+    }
+    const {
+        data: session,
+        isPending, //loading state
+        error, //error object
+        refetch //refetch the session
+    } = authClient.useSession()
+    
+
+
+
+
+
+
+
+
+
 
     return (
         <>
@@ -36,17 +57,33 @@ function Navber() {
                                     className="btn p-0 hover:shadow-none bg-transparent border-0 m-1">Click  ⬇️</div>
 
                                 <div tabIndex={-1} className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
-                                    <p>Rezwan Ahmed</p>
-                                    <p>rezwanahmed@gmail.com</p>
+                                    {Boolean(session?.user) ? (<div>
+                                        <p>{session?.user?.name}</p>
+                                        <p>{session?.user?.email}</p>
+                                        </div>) : ""}
                                     <div>
-                                       <ul>
-                                        <li><Link href='/profile'><FaUser /> আমার প্রোফাইল</Link></li>
-                                        <li><Link className='text-red-600' href='/'><BsArrowReturnLeft /> সাইন আউট</Link></li>
-                                        </ul> 
+                                        <ul>
+                                            {Boolean(session?.user) ? (<div>
+                                                <li><Link href='/profile'><FaUser /> আমার প্রোফাইল</Link></li>
+                                                <li>
+                                                    <button className='text-red-600' onClick={handelSingOut}><BsArrowReturnLeft /> সাইন আউট</button>
+                                                </li>
+
+                                            </div>) : (
+                                                <div>
+                                                    <li><Link href='/singUp'>সাইন আপ</Link></li>
+                                                    <li><Link href='/singIn'>সাইন ইন</Link></li>
+
+                                                </div>
+                                            )}
+
+
+
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
-                            
+
                         </div>
 
                     </div>

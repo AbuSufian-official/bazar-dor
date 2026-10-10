@@ -1,6 +1,18 @@
+"use client" 
+import { authClient } from '@/lib/auth-client';
 import React from 'react';
 
 function UserProfile() {
+    const {
+        data: session,
+        isPending, //loading state
+        error, //error object
+        refetch //refetch the session
+    } = authClient.useSession()
+    let handelSingOut = async () => {
+        await authClient.signOut()
+    }
+
     return (
         <div className="min-h-screen bg-[#F3F6F3] p-4 sm:p-6 md:p-8 font-sans text-gray-800">
             <div className="max-w-4xl mx-auto space-y-6">
@@ -30,16 +42,18 @@ function UserProfile() {
                         {/* Name & Email */}
                         <div className="space-y-0.5">
                             <h2 className="text-lg sm:text-xl font-bold text-gray-900">
-                                Rezwan Ahmed
+                                {session?.user?.name}
+
                             </h2>
                             <p className="text-xs sm:text-sm text-gray-500 font-medium">
-                                rezwanahmed@gmail.com
+                                {session?.user?.email}
                             </p>
                         </div>
                     </div>
 
                     {/* Sign Out Button */}
                     <button
+                        onClick={handelSingOut}
                         type="button"
                         className="inline-flex items-center justify-center gap-1.5 px-4 py-2 border border-red-200 text-red-500 hover:bg-red-50 text-xs sm:text-sm font-semibold rounded-xl transition-colors shrink-0"
                     >
