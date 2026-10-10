@@ -15,14 +15,20 @@ function SignUp() {
         const formData = new FormData(e.target)
         const user = Object.fromEntries(formData.entries())
         const { data, error } = await authClient.signUp.email({
-            name: user.name, 
-            email: user.email, 
-            password: user.password, 
-            callbackURL: process.env.BETTER_AUTH_URL, 
+            name: user.name,
+            email: user.email,
+            password: user.password,
+            callbackURL: process.env.BETTER_AUTH_URL,
         });
-        console.log(data,error)
+        console.log(data, error)
 
 
+    }
+    async function handelGoogleSingin() {
+        const data = await authClient.signIn.social({
+            provider: "google",
+        });
+        
     }
 
     return (
@@ -121,6 +127,7 @@ function SignUp() {
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                             {/* Google Button */}
                             <button
+                                onClick={handelGoogleSingin}
                                 type="button"
                                 className="flex items-center justify-center gap-2 py-2.5 px-3 border border-gray-200 rounded-lg text-xs font-semibold text-gray-700 hover:bg-gray-50 transition-colors"
                             >

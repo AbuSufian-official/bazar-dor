@@ -8,17 +8,27 @@ export default function SignIn() {
         e.preventDefault();
         const formData = new FormData(e.target)
         const user = Object.fromEntries(formData.entries())
-        
-        const { data, error } = await authClient.signIn.email({
-            email: user.email, 
-            password:user.password, 
-            rememberMe: true, 
-            callbackURL: process.env.BETTER_AUTH_URL, 
-        });
-        console.log(data, error)
 
+        const { data, error } = await authClient.signIn.email({
+            email: user.email,
+            password: user.password,
+            rememberMe: true,
+            callbackURL: process.env.BETTER_AUTH_URL,
+        });
+    }
+    async function handelGoogleSingin() {
+        const data = await authClient.signIn.social({
+            provider: "google",
+        });
 
     }
+
+
+
+
+
+
+
     return (
         <div className='container mx-auto px-2'>
             <form onSubmit={handelSingIn}>
@@ -82,6 +92,7 @@ export default function SignIn() {
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                             {/* Google Button */}
                             <button
+                            onClick={handelGoogleSingin}
                                 type="button"
                                 className="flex items-center justify-center gap-2 py-2.5 px-3 bg-[#FAFBF9] hover:bg-gray-100 border border-gray-200 rounded-xl text-xs font-semibold text-gray-700 transition-colors"
                             >
