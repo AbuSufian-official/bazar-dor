@@ -3,20 +3,18 @@ import React from 'react'
 function Filtter() {
     return (
         <>
-            <div className='px-6 my-6 text-[14px] flex items-center gap-2 justify-end py-5 bg-white border border-[#E1E8E1] rounded-[15px]'>
-                <span className='text-[#1D271F]'> 
-                    সাজান
+            <div className='px-4 sm:px-6 my-4 sm:my-6 text-xs sm:text-sm flex items-center justify-between sm:justify-end gap-3 py-3 sm:py-4 bg-white border border-[#E1E8E1] rounded-2xl shadow-xs'>
+                <span className='text-[#1D271F] font-semibold'> 
+                    সাজান:
                 </span>
-                <div className='w-30'>
-                    <select defaultValue="Pick a color" className="select">
-                        <option disabled={true}>ডিফল্ট</option>
-                        <option>Crimson</option>
-                        <option>Amber</option>
-                        <option>Velvet</option>
+                <div className='w-36 sm:w-44'>
+                    <select defaultValue="default" className="select select-sm w-full text-xs sm:text-sm border-gray-200 bg-gray-50/60 rounded-xl">
+                        <option value="default">ডিফল্ট</option>
+                        <option value="price-asc">দাম: কম থেকে বেশি</option>
+                        <option value="price-desc">দাম: বেশি থেকে কম</option>
                     </select>
                 </div>
             </div>
-
         </>
 
     )

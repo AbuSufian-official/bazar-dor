@@ -18,7 +18,7 @@ function SignUp() {
             name: user.name,
             email: user.email,
             password: user.password,
-            callbackURL: process.env.BETTER_AUTH_URL,
+            callbackURL: process.env.NEXT_PUBLIC_BETTER_AUTH_URL || "/",
         });
         console.log(data, error)
 

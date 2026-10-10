@@ -1,9 +1,33 @@
 import React from 'react';
+import Link from 'next/link';
 
 async function ProductDetails({ params }) {
-    let { detailsID } = await params
-    let fetchDeta = await fetch(`https://api.abcz.workers.dev/api/bazardor/products/${detailsID}`)
-    let deta = await fetchDeta.json();
+    let { detailsID } = await params;
+    let deta = null;
+    try {
+        let fetchDeta = await fetch(`https://api.abcz.workers.dev/api/bazardor/products/${detailsID}`);
+        deta = await fetchDeta.json();
+    } catch {
+        deta = null;
+    }
+
+    if (!deta || deta.error) {
+        return (
+            <div className="min-h-[60vh] flex flex-col items-center justify-center p-6 text-center">
+                <span className="text-4xl mb-3">🔍</span>
+                <h1 className="text-xl sm:text-2xl font-bold text-gray-800">পণ্যের তথ্য পাওয়া যায়নি</h1>
+                <p className="text-sm text-gray-500 mt-1 mb-4">অনুগ্রহ করে আবার চেষ্টা করুন বা হোমপেজে ফিরে যান।</p>
+                <Link href="/" className="px-4 py-2 bg-[#008A45] text-white font-medium text-sm rounded-xl hover:bg-[#007339] transition-colors">
+                    হোমে ফিরে যান
+                </Link>
+            </div>
+        );
+    }
+
+    const diff = Number(deta.today || 0) - Number(deta.yesterday || 0);
+    const isUp = deta?.change?.dir === "up" || diff > 0;
+    const diffText = isUp ? `বেড়েছে - ${Math.abs(diff)} টাকা` : diff < 0 ? `কমেছে - ${Math.abs(diff)} টাকা` : `অপরিবর্তিত`;
+    const pct = deta?.change?.pct !== undefined ? Math.abs(Number(deta.change.pct)) : "0";
 
     return (
         <div className="min-h-screen bg-[#F3F6F3] p-3 sm:p-6 md:p-8 font-sans text-gray-800 dir-ltr">
@@ -11,19 +35,19 @@ async function ProductDetails({ params }) {
 
                 {/* Breadcrumb */}
                 <nav className="flex items-center space-x-2 text-xs sm:text-sm text-gray-500 font-medium overflow-x-auto whitespace-nowrap">
-                    <span>হোম</span>
+                    <Link href="/" className="hover:text-emerald-700 transition-colors">হোম</Link>
                     <span>&gt;</span>
                     <span>{deta.categoryNameBn}</span>
                     <span>&gt;</span>
-                    <span className="text-gray-700">{deta.nameBn}</span>
+                    <span className="text-gray-700 font-semibold">{deta.nameBn}</span>
                 </nav>
 
                 {/* Header Hero Card */}
                 <div className="bg-white rounded-2xl p-4 sm:p-6 border border-gray-100/80 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <div className="flex items-start sm:items-center gap-4">
-                        {/* Rice Icon Container */}
+                        {/* Dynamic Icon Container */}
                         <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-[#F0F5F0] flex items-center justify-center shrink-0 border border-gray-100">
-                            <span className="text-3xl">🍚</span>
+                            <span className="text-3xl">{deta.image || "🛒"}</span>
                         </div>
 
                         {/* Title & Metadata */}
@@ -32,10 +56,10 @@ async function ProductDetails({ params }) {
                                 {deta.nameBn}
                             </h1>
                             <p className="text-xs sm:text-sm text-gray-500">
-                                প্রতি কেজি · চাল
+                                প্রতি {deta.unit} · {deta.categoryNameBn}
                             </p>
                             <p className="text-xs sm:text-sm font-medium text-gray-600">
-                                গতকালকের তুলনায় আজ দাম <span className="font-bold text-gray-900">বেড়েছে - {Number(deta.today) - Number(deta.yesterday)} টাকা</span>
+                                গতকালকের তুলনায় আজ দাম <span className="font-bold text-gray-900">{diffText}</span>
                             </p>
                         </div>
                     </div>
@@ -45,8 +69,8 @@ async function ProductDetails({ params }) {
                         <div className="text-xs text-gray-500 font-medium">আজকের দাম</div>
                         <div className="text-3xl sm:text-4xl font-extrabold text-gray-900 my-0.5">{deta.today}</div>
                         <div className="text-xs text-gray-500 font-medium mb-1">টাকা / {deta.unit}</div>
-                        <div className={`inline-flex items-center ${deta.change["dir"] == "up" ? "text-red-600" : "text-green-600"} text-xs font-bold  bg-red-50 px-2 py-0.5 rounded-full`}>
-                            {deta.change["dir"] == "up" ? "▲" : "▼"}{deta.change["pct"]}%
+                        <div className={`inline-flex items-center ${isUp ? "text-rose-600 bg-rose-50" : "text-emerald-600 bg-emerald-50"} text-xs font-bold px-2 py-0.5 rounded-full`}>
+                            {isUp ? "▲" : "▼"} {pct}%
                         </div>
                     </div>
                 </div>

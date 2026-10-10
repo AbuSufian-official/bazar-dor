@@ -13,7 +13,7 @@ export default function SignIn() {
             email: user.email,
             password: user.password,
             rememberMe: true,
-            callbackURL: process.env.BETTER_AUTH_URL,
+            callbackURL: process.env.NEXT_PUBLIC_BETTER_AUTH_URL || "/",
         });
     }
     async function handelGoogleSingin() {
