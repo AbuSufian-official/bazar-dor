@@ -5,6 +5,7 @@ import { FaUser } from "react-icons/fa";
 import { BsArrowReturnLeft } from "react-icons/bs";
 import { authClient } from '@/lib/auth-client';
 import { useSyncExternalStore } from 'react';
+import toast from 'react-hot-toast';
 
 const emptySubscribe = () => () => {};
 const getClientDate = () => new Date().toLocaleDateString("bn-BD", { dateStyle: 'full' });
@@ -15,6 +16,8 @@ function Navber() {
 
     let handelSingOut = async () => {
         await authClient.signOut()
+        const notify = () => toast.success('আপনার অ্যাকাউন্ট সফল ভাবেসাইন আউট হয়েছ।' );
+        notify()
     }
     const {
         data: session,
@@ -22,15 +25,6 @@ function Navber() {
         error, //error object
         refetch //refetch the session
     } = authClient.useSession()
-    
-
-
-
-
-
-
-
-
 
 
     return (
@@ -88,7 +82,8 @@ function Navber() {
                                             </li>
                                             <li>
                                                 <button 
-                                                    onClick={handelSingOut} 
+                                                    onClick={handelSingOut}
+                                                    
                                                     className="w-full flex items-center gap-2 px-3 py-2 text-xs sm:text-sm font-semibold text-rose-600 rounded-xl hover:bg-rose-50"
                                                 >
                                                     <BsArrowReturnLeft /> সাইন আউট

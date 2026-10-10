@@ -3,7 +3,7 @@ import { authClient } from '@/lib/auth-client';
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-
+import toast from 'react-hot-toast';
 function UserProfile() {
     const {
         data: session,
@@ -13,6 +13,8 @@ function UserProfile() {
     } = authClient.useSession()
     let handelSingOut = async () => {
         await authClient.signOut()
+        const notify = () => toast.success('আপনার অ্যাকাউন্ট সফল ভাবেসাইন আউট হয়েছ।');
+        notify()
     }
 
     return (

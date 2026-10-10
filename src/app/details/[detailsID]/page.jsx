@@ -29,6 +29,19 @@ async function ProductDetails({ params }) {
     const diffText = isUp ? `বেড়েছে - ${Math.abs(diff)} টাকা` : diff < 0 ? `কমেছে - ${Math.abs(diff)} টাকা` : `অপরিবর্তিত`;
     const pct = deta?.change?.pct !== undefined ? Math.abs(Number(deta.change.pct)) : "0";
 
+    const maxPrice = deta.markets.reduce((max, item) => {
+        return item.max > max ? item.max : max;
+    }, deta.markets[0].max);
+    const minPrice = deta.markets.reduce((min, item) => {
+        return item.min < min ? item.min : min;
+    }, deta.markets[0].min);
+    const averagePrice = deta.markets.reduce((total, item) => {
+        return total + (item.min + item.max) / 2;
+    }, 0) / deta.markets.length;
+
+
+
+
     return (
         <div className="min-h-screen bg-[#F3F6F3] p-3 sm:p-6 md:p-8 font-sans text-gray-800 dir-ltr">
             <div className="max-w-5xl mx-auto space-y-4 sm:space-y-6">
@@ -88,21 +101,21 @@ async function ProductDetails({ params }) {
                             {/* Lowest Price */}
                             <div className="bg-[#FAFBF9] rounded-xl p-4 border border-gray-100 space-y-1">
                                 <div className="text-xs sm:text-sm text-gray-500 font-medium">সর্বনিম্ন দাম</div>
-                                <div className="text-xl sm:text-2xl font-bold text-emerald-600">৫৯ টাকা</div>
+                                <div className="text-xl sm:text-2xl font-bold text-emerald-600">{minPrice} টাকা</div>
                                 <div className="text-xs text-gray-500">সবচেয়ে কম পাওয়া যাচ্ছে</div>
                             </div>
 
                             {/* Highest Price */}
                             <div className="bg-[#FAFBF9] rounded-xl p-4 border border-gray-100 space-y-1">
                                 <div className="text-xs sm:text-sm text-gray-500 font-medium">সর্বাধিক দাম</div>
-                                <div className="text-xl sm:text-2xl font-bold text-red-500">৭৩ টাকা</div>
+                                <div className="text-xl sm:text-2xl font-bold text-red-500">{maxPrice} টাকা</div>
                                 <div className="text-xs text-gray-500">সবচেয়ে বেশি দামের বাজার</div>
                             </div>
 
                             {/* Average Price */}
                             <div className="bg-[#FAFBF9] rounded-xl p-4 border border-gray-100 space-y-1">
                                 <div className="text-xs sm:text-sm text-gray-500 font-medium">গড় দাম</div>
-                                <div className="text-xl sm:text-2xl font-bold text-emerald-600">৬৬ টাকা</div>
+                                <div className="text-xl sm:text-2xl font-bold text-emerald-600">{Math.round(averagePrice)} টাকা</div>
                                 <div className="text-xs text-gray-500">প্রতি কেজি-এর হিসাবে</div>
                             </div>
                         </div>
@@ -127,90 +140,18 @@ async function ProductDetails({ params }) {
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-gray-100/60">
-                                    <tr className="bg-[#F9FAF8] hover:bg-gray-100/80 transition-colors rounded-lg">
-                                        <td className="py-3 px-3 font-semibold text-gray-900 rounded-l-lg">মার্চ বাজার</td>
-                                        <td className="py-3 px-3 text-gray-600">ময়মনসিংহ</td>
-                                        <td className="py-3 px-3 text-center text-gray-700 font-medium">৫৯ টাকা</td>
-                                        <td className="py-3 px-3 text-center text-gray-700 font-medium">৬২ টাকা</td>
-                                        <td className="py-3 px-3 text-right font-bold text-gray-900 rounded-r-lg">৬২ টাকা</td>
-                                    </tr>
-                                    <tr className="bg-[#F9FAF8] hover:bg-gray-100/80 transition-colors rounded-lg">
-                                        <td className="py-3 px-3 font-semibold text-gray-900 rounded-l-lg">সদর বাজার</td>
-                                        <td className="py-3 px-3 text-gray-600">রাজশাহী</td>
-                                        <td className="py-3 px-3 text-center text-gray-700 font-medium">৬০ টাকা</td>
-                                        <td className="py-3 px-3 text-center text-gray-700 font-medium">৬৬ টাকা</td>
-                                        <td className="py-3 px-3 text-right font-bold text-gray-900 rounded-r-lg">৬৩ টাকা</td>
-                                    </tr>
-                                    <tr className="bg-[#F9FAF8] hover:bg-gray-100/80 transition-colors rounded-lg">
-                                        <td className="py-3 px-3 font-semibold text-gray-900 rounded-l-lg">বাগেরহাট</td>
-                                        <td className="py-3 px-3 text-gray-600">খুলনা</td>
-                                        <td className="py-3 px-3 text-center text-gray-700 font-medium">৬০ টাকা</td>
-                                        <td className="py-3 px-3 text-center text-gray-700 font-medium">৬২ টাকা</td>
-                                        <td className="py-3 px-3 text-right font-bold text-gray-900 rounded-r-lg">৬১.৫০ টাকা</td>
-                                    </tr>
-                                    <tr className="bg-[#F9FAF8] hover:bg-gray-100/80 transition-colors rounded-lg">
-                                        <td className="py-3 px-3 font-semibold text-gray-900 rounded-l-lg">সাহেববাজার বাজার</td>
-                                        <td className="py-3 px-3 text-gray-600">রাজশাহী</td>
-                                        <td className="py-3 px-3 text-center text-gray-700 font-medium">৬০ টাকা</td>
-                                        <td className="py-3 px-3 text-center text-gray-700 font-medium">৬৮ টাকা</td>
-                                        <td className="py-3 px-3 text-right font-bold text-gray-900 rounded-r-lg">৬৪ টাকা</td>
-                                    </tr>
-                                    <tr className="bg-[#F9FAF8] hover:bg-gray-100/80 transition-colors rounded-lg">
-                                        <td className="py-3 px-3 font-semibold text-gray-900 rounded-l-lg">মেছ বাজার</td>
-                                        <td className="py-3 px-3 text-gray-600">ময়মনসিংহ</td>
-                                        <td className="py-3 px-3 text-center text-gray-700 font-medium">৬০ টাকা</td>
-                                        <td className="py-3 px-3 text-center text-gray-700 font-medium">৬৬ টাকা</td>
-                                        <td className="py-3 px-3 text-right font-bold text-gray-900 rounded-r-lg">৬৪.৫০ টাকা</td>
-                                    </tr>
-                                    <tr className="bg-[#F9FAF8] hover:bg-gray-100/80 transition-colors rounded-lg">
-                                        <td className="py-3 px-3 font-semibold text-gray-900 rounded-l-lg">আমতলীয় বাজার</td>
-                                        <td className="py-3 px-3 text-gray-600">চট্টগ্রাম</td>
-                                        <td className="py-3 px-3 text-center text-gray-700 font-medium">৬০ টাকা</td>
-                                        <td className="py-3 px-3 text-center text-gray-700 font-medium">৬৯ টাকা</td>
-                                        <td className="py-3 px-3 text-right font-bold text-gray-900 rounded-r-lg">৬৫ টাকা</td>
-                                    </tr>
-                                    <tr className="bg-[#F9FAF8] hover:bg-gray-100/80 transition-colors rounded-lg">
-                                        <td className="py-3 px-3 font-semibold text-gray-900 rounded-l-lg">ডবলসেট বাজার</td>
-                                        <td className="py-3 px-3 text-gray-600">খুলনা</td>
-                                        <td className="py-3 px-3 text-center text-gray-700 font-medium">৬২ টাকা</td>
-                                        <td className="py-3 px-3 text-center text-gray-700 font-medium">৬৯ টাকা</td>
-                                        <td className="py-3 px-3 text-right font-bold text-gray-900 rounded-r-lg">৬৫.৫০ টাকা</td>
-                                    </tr>
-                                    <tr className="bg-[#F9FAF8] hover:bg-gray-100/80 transition-colors rounded-lg">
-                                        <td className="py-3 px-3 font-semibold text-gray-900 rounded-l-lg">কদমতলী বাজার</td>
-                                        <td className="py-3 px-3 text-gray-600">সিলেট</td>
-                                        <td className="py-3 px-3 text-center text-gray-700 font-medium">৬৩ টাকা</td>
-                                        <td className="py-3 px-3 text-center text-gray-700 font-medium">৭৫ টাকা</td>
-                                        <td className="py-3 px-3 text-right font-bold text-gray-900 rounded-r-lg">৬৭ টাকা</td>
-                                    </tr>
-                                    <tr className="bg-[#F9FAF8] hover:bg-gray-100/80 transition-colors rounded-lg">
-                                        <td className="py-3 px-3 font-semibold text-gray-900 rounded-l-lg">গ্রীন মার্কেট, মিরপুর</td>
-                                        <td className="py-3 px-3 text-gray-600">ঢাকা</td>
-                                        <td className="py-3 px-3 text-center text-gray-700 font-medium">৬৪ টাকা</td>
-                                        <td className="py-3 px-3 text-center text-gray-700 font-medium">৭৬ টাকা</td>
-                                        <td className="py-3 px-3 text-right font-bold text-gray-900 rounded-r-lg">৬৭.৫০ টাকা</td>
-                                    </tr>
-                                    <tr className="bg-[#F9FAF8] hover:bg-gray-100/80 transition-colors rounded-lg">
-                                        <td className="py-3 px-3 font-semibold text-gray-900 rounded-l-lg">চৌধুরী বাজার</td>
-                                        <td className="py-3 px-3 text-gray-600">চট্টগ্রাম</td>
-                                        <td className="py-3 px-3 text-center text-gray-700 font-medium">৬৩ টাকা</td>
-                                        <td className="py-3 px-3 text-center text-gray-700 font-medium">৭৩ টাকা</td>
-                                        <td className="py-3 px-3 text-right font-bold text-gray-900 rounded-r-lg">৬৮ টাকা</td>
-                                    </tr>
-                                    <tr className="bg-[#F9FAF8] hover:bg-gray-100/80 transition-colors rounded-lg">
-                                        <td className="py-3 px-3 font-semibold text-gray-900 rounded-l-lg">আম্বারখানা</td>
-                                        <td className="py-3 px-3 text-gray-600">সিলেট</td>
-                                        <td className="py-3 px-3 text-center text-gray-700 font-medium">৬৪ টাকা</td>
-                                        <td className="py-3 px-3 text-center text-gray-700 font-medium">৭৩ টাকা</td>
-                                        <td className="py-3 px-3 text-right font-bold text-gray-900 rounded-r-lg">৬৮.৫০ টাকা</td>
-                                    </tr>
-                                    <tr className="bg-[#F9FAF8] hover:bg-gray-100/80 transition-colors rounded-lg">
-                                        <td className="py-3 px-3 font-semibold text-gray-900 rounded-l-lg">কারওয়ান বাজার</td>
-                                        <td className="py-3 px-3 text-gray-600">ঢাকা</td>
-                                        <td className="py-3 px-3 text-center text-gray-700 font-medium">৬২ টাকা</td>
-                                        <td className="py-3 px-3 text-center text-gray-700 font-medium">৭৩ টাকা</td>
-                                        <td className="py-3 px-3 text-right font-bold text-gray-900 rounded-r-lg">৬৯ টাকা</td>
-                                    </tr>
+                                    {deta.markets.map((n, index) => {
+                                        return (
+                                            <tr key={index}  className="bg-[#F9FAF8] hover:bg-gray-100/80 transition-colors rounded-lg">
+                                                <td className="py-3 px-3 font-semibold text-gray-900 rounded-l-lg">{n.market}</td>
+                                                <td className="py-3 px-3 text-gray-600">{n.division}</td>
+                                                <td className="py-3 px-3 text-center text-gray-700 font-medium">{n.min} টাকা</td>
+                                                <td className="py-3 px-3 text-center text-gray-700 font-medium">{n.max} টাকা</td>
+                                                <td className="py-3 px-3 text-right font-bold text-gray-900 rounded-r-lg">{(Number(n.min) + Number(n.max)) / 2} টাকা</td>
+                                            </tr>
+
+                                        )
+                                    })}
                                 </tbody>
                             </table>
                         </div>

@@ -33,7 +33,7 @@ async function Categorypage({ params }) {
                     </div>
 
                     <div>
-                        <Filtter/>
+                        <Filtter deta={products}/>
                     </div>
 
                     {products.length > 0 ? (

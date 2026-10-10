@@ -5,6 +5,7 @@ import Navber from "./components/navber";
 import CatagoryManu from "./components/categoryManu";
 import Marquee from "./components/marquee";
 import Footer from "./components/footer";
+import { Toaster } from "react-hot-toast";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,7 +34,7 @@ export default function RootLayout({ children }) {
           <Marquee/>
         
           {children}
-        
+        <Toaster />
         <Footer/>
       </body>
     </html>
