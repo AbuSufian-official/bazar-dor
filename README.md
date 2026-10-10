@@ -1,21 +1,5 @@
 # বাজার দর \| BazarDor
 
-```{=html}
-<p align="center">
-```
-`<strong>`{=html}নিত্যপণ্যের বাজার দর --- প্রয়োজনীয় পণ্যের দাম এক
-নজরে`</strong>`{=html}
-```{=html}
-</p>
-```
-```{=html}
-<p align="center">
-```
-`<a href="https://bazar-dor-sand-beta.vercel.app/">`{=html}Live
-Demo`</a>`{=html}
-```{=html}
-</p>
-```
 ## 📌 About the Project
 
 **বাজার দর (BazarDor)** is a web application that helps people check the
