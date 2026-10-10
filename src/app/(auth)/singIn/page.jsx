@@ -1,32 +1,65 @@
 "use client"
-import React from 'react';
+import React, { useState } from 'react';
 import { authClient } from '@/lib/auth-client';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+
 export default function SignIn() {
+    const router = useRouter();
+    const [loading, setLoading] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
 
     let handelSingIn = async (e) => {
         e.preventDefault();
-        const formData = new FormData(e.target)
-        const user = Object.fromEntries(formData.entries())
+        setErrorMessage("");
+        setLoading(true);
+        const formData = new FormData(e.target);
+        const user = Object.fromEntries(formData.entries());
 
-        const { data, error } = await authClient.signIn.email({
-            email: user.email,
-            password: user.password,
-            rememberMe: true,
-            
-        });
-    }
+        try {
+            const { data, error } = await authClient.signIn.email({
+                email: user.email,
+                password: user.password,
+                rememberMe: true,
+            });
+
+            if (error) {
+                setErrorMessage(error.message || "ইমেইল বা পাসওয়ার্ড সঠিক নয়। আবার চেষ্টা করুন।");
+            } else {
+                router.push('/');
+                router.refresh();
+            }
+        } catch (err) {
+            setErrorMessage("সার্ভার ত্রুটি, অনুগ্রহ করে একটু পর আবার চেষ্টা করুন।");
+        } finally {
+            setLoading(false);
+        }
+    };
+
     async function handelGoogleSingin() {
-        const data = await authClient.signIn.social({
-            provider: "google",
-        });
-        
+        setErrorMessage("");
+        try {
+            await authClient.signIn.social({
+                provider: "google",
+                callbackURL: "/",
+            });
+        } catch (err) {
+            setErrorMessage("Google সাইন ইন করতে ব্যর্থ হয়েছে।");
+        }
     }
+
     async function handelGithubSingin() {
-        const data = await authClient.signIn.social({
-            provider: "github"
-        })
+        setErrorMessage("");
+        try {
+            await authClient.signIn.social({
+                provider: "github",
+                callbackURL: "/",
+            });
+        } catch (err) {
+            setErrorMessage("GitHub সাইন ইন করতে ব্যর্থ হয়েছে।");
+        }
     }
+
 
 
 
@@ -78,13 +111,22 @@ export default function SignIn() {
                             />
                         </div>
 
+                        {/* Error Message */}
+                        {errorMessage && (
+                            <div className="p-3 bg-red-50 border border-red-200 text-red-600 rounded-xl text-xs sm:text-sm text-center font-medium">
+                                {errorMessage}
+                            </div>
+                        )}
+
                         {/* Primary Action Button */}
                         <button
                             type="submit"
-                            className="w-full py-3 mt-2 bg-[#008A45] hover:bg-[#007339] text-white font-bold text-xs sm:text-sm rounded-xl transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:ring-offset-1"
+                            disabled={loading}
+                            className="w-full py-3 mt-2 bg-[#008A45] hover:bg-[#007339] disabled:opacity-50 text-white font-bold text-xs sm:text-sm rounded-xl transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-600 focus:ring-offset-1 cursor-pointer"
                         >
-                            সাইন ইন
+                            {loading ? "সাইন ইন করা হচ্ছে..." : "সাইন ইন"}
                         </button>
+
 
                         {/* Divider */}
                         <div className="relative flex py-2 items-center justify-center">

@@ -2,39 +2,71 @@
 import { authClient } from '@/lib/auth-client';
 import Link from 'next/link';
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 function SignUp() {
-    let [check, setCheck] = useState(true)
+    const router = useRouter();
+    const [check, setCheck] = useState(true);
+    const [loading, setLoading] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
+
     let handelSubmit = async (e) => {
         e.preventDefault();
-        if ((e.target[3].value == e.target[2].value) === false) {
-            setCheck(false)
-            return
+        setErrorMessage("");
+        const formData = new FormData(e.target);
+        const user = Object.fromEntries(formData.entries());
+
+        if (user.password !== user.confirmpassword) {
+            setCheck(false);
+            return;
         }
-        setCheck(true)
-        const formData = new FormData(e.target)
-        const user = Object.fromEntries(formData.entries())
-        const { data, error } = await authClient.signUp.email({
-            name: user.name,
-            email: user.email,
-            password: user.password,
-            
-        });
-        
+        setCheck(true);
 
+        setLoading(true);
+        try {
+            const { data, error } = await authClient.signUp.email({
+                name: user.name,
+                email: user.email,
+                password: user.password,
+            });
 
-    }
+            if (error) {
+                setErrorMessage(error.message || "অ্যাকাউন্ট তৈরি করতে সমস্যা হয়েছে।");
+            } else {
+                router.push('/');
+                router.refresh();
+            }
+        } catch (err) {
+            setErrorMessage("সার্ভার ত্রুটি, অনুগ্রহ করে একটু পর আবার চেষ্টা করুন।");
+        } finally {
+            setLoading(false);
+        }
+    };
 
     async function handelGoogleSingin() {
-        const data = await authClient.signIn.social({
-            provider: "google",
-        });
+        setErrorMessage("");
+        try {
+            await authClient.signIn.social({
+                provider: "google",
+                callbackURL: "/",
+            });
+        } catch (err) {
+            setErrorMessage("Google সাইন ইন করতে ব্যর্থ হয়েছে।");
+        }
     }
+
     async function handelGithubSingin() {
-        const data = await authClient.signIn.social({
-            provider: "github"
-        })
+        setErrorMessage("");
+        try {
+            await authClient.signIn.social({
+                provider: "github",
+                callbackURL: "/",
+            });
+        } catch (err) {
+            setErrorMessage("GitHub সাইন ইন করতে ব্যর্থ হয়েছে।");
+        }
     }
+
 
     return (
         <div className='container px-2 mx-auto'>
@@ -110,14 +142,22 @@ function SignUp() {
                             <p className={check ? `hidden` : `block text-red-600`} >আপনি ভুল পাসওয়ার্ড লিখেছেন।</p>
                         </div>
 
+                        {/* Error Message */}
+                        {errorMessage && (
+                            <div className="p-3 bg-red-50 border border-red-200 text-red-600 rounded-lg text-xs sm:text-sm text-center font-medium">
+                                {errorMessage}
+                            </div>
+                        )}
+
                         {/* Submit Button */}
                         <button
-
                             type="submit"
-                            className="w-full mt-2 py-3 bg-[#008744] hover:bg-[#00753a] text-white font-medium rounded-lg text-sm transition-colors shadow-sm"
+                            disabled={loading}
+                            className="w-full mt-2 py-3 bg-[#008744] hover:bg-[#00753a] disabled:opacity-50 text-white font-medium rounded-lg text-sm transition-colors shadow-sm cursor-pointer"
                         >
-                            অ্যাকাউন্ট তৈরি করুন
+                            {loading ? "অ্যাকাউন্ট তৈরি হচ্ছে..." : "অ্যাকাউন্ট তৈরি করুন"}
                         </button>
+
 
 
                         {/* Divider */}
