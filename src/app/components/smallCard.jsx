@@ -22,7 +22,7 @@ const SMcard = ({ deta }) => {
                 {deta.nameBn}
               </h3>
               <p className="mt-0.5 text-xs text-[#69736d]">
-                প্রতি {deta.unit}
+                প্রতি {deta.today} টাকা/{deta.unit == "litre" ? "লিটার" : ""}{deta.unit == "kg" ? "কেজি " : ""}{deta.unit == "dozen" ? "ডজন" : ""}{deta.unit == "piece" ? "পিস" : ""}
               </p>
             </div>
           </div>

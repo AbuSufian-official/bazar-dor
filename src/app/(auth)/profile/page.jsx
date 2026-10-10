@@ -17,6 +17,17 @@ function UserProfile() {
         notify()
     }
 
+
+    async function handelUpdateUser(e) {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const user = Object.fromEntries(formData.entries());
+        console.log(user)
+        await authClient.updateUser({
+            name: user.name,
+        })
+    }
+
     return (
         <div className="min-h-screen bg-[#F3F6F3] p-4 sm:p-6 md:p-8 font-sans text-gray-800">
             <div className="max-w-4xl mx-auto space-y-6">
@@ -37,7 +48,7 @@ function UserProfile() {
                         {/* Avatar Image Container */}
                         <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl overflow-hidden bg-gray-100 shrink-0 border border-gray-100 relative">
                             <Image
-                                src={session?.user?.image || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=256"}
+                                src={session?.user?.image || "https://static.vecteezy.com/system/resources/thumbnails/022/014/184/small/user-icon-member-login-isolated-vector.jpg"}
                                 alt={session?.user?.name || "প্রোফাইল ছবি"}
                                 width={80}
                                 height={80}
@@ -78,19 +89,24 @@ function UserProfile() {
                 </div>
 
                 {/* Info Form Card */}
-                <form>
+                <form onSubmit={handelUpdateUser}>
                     <div className="bg-white rounded-2xl p-5 sm:p-8 border border-gray-100/80 shadow-sm space-y-5">
                         <h3 className="text-base sm:text-lg font-bold text-gray-900">
                             তথ্য
                         </h3>
 
                         <div className="space-y-4 max-w-2xl">
+
+
+
+
                             {/* Name Input Field */}
                             <div className="space-y-1.5">
                                 <label className="block text-xs sm:text-sm font-semibold text-gray-700">
                                     নাম
                                 </label>
                                 <input
+                                    name='name'
                                     type="text"
                                     className="w-full px-3.5 py-2.5 bg-[#FAFBF9] border border-gray-200 rounded-xl text-xs sm:text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition"
                                 />
@@ -103,6 +119,10 @@ function UserProfile() {
                             >
                                 আপডেট
                             </button>
+
+
+
+
                         </div>
                     </div>
                 </form>

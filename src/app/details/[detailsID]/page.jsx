@@ -69,7 +69,7 @@ async function ProductDetails({ params }) {
                                 {deta.nameBn}
                             </h1>
                             <p className="text-xs sm:text-sm text-gray-500">
-                                প্রতি {deta.unit} · {deta.categoryNameBn}
+                                প্রতি {deta.unit=="litre"?"লিটার":""}{deta.unit=="kg"?"কেজি ":""}{deta.unit=="dozen"?"ডজন":""}{deta.unit=="piece"?"পিস":""} · {deta.categoryNameBn}
                             </p>
                             <p className="text-xs sm:text-sm font-medium text-gray-600">
                                 গতকালকের তুলনায় আজ দাম <span className="font-bold text-gray-900">{diffText}</span>

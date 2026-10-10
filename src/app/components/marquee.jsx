@@ -24,9 +24,9 @@ async function Marquee() {
                         return (
                             <Link key={index} href={`/details/${n.id}`} className="hover:text-emerald-700 transition-colors shrink-0">
                                 <div className="flex items-center gap-1.5 font-medium">
-                                    <span>{n.categoryIcon}</span>
-                                    <span>{n.nameBn}</span>
-                                    <span className="text-gray-900 font-semibold">{n.today} টাকা/{n.unit}</span>
+                                    <span >{n.categoryIcon}</span>
+                                    <span className='text-black'>{n.nameBn}</span>
+                                    <span className="text-gray-900 font-semibold">{n.today} টাকা/{n.unit=="litre"?"লিটার":""}{n.unit=="kg"?"কেজি ":""}{n.unit=="dozen"?"ডজন":""}{n.unit=="piece"?"পিস":""}</span>
                                     <span className={`inline-flex items-center text-xs font-bold ${isDown ? "text-green-600" : "text-red-600"}`}>
                                         {isDown ? "▼" : "▲"}{Math.abs(Number(n?.change?.pct || 0))}%
                                     </span>
