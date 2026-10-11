@@ -27,7 +27,7 @@ async function PriceDown() {
                         {filterDown.length}টি পণ্য
                     </span>
                 </div>
-                <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3.5 sm:gap-4'>
+                <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-4'>
                     {abcc.map((deta, index) => {
                         return (
                             <SMcard key={index} deta={deta} />
