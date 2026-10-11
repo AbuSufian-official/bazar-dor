@@ -17,7 +17,7 @@ async function Categorypage({ params }) {
 
     return (
         <>
-            <CategoryBody products={products}/>
+            <CategoryBody categoryid={categoryid} products={products}/>
         </>
     )
 }

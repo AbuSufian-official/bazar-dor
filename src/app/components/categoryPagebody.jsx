@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import SMcard from '@/app/components/smallCard';
 import Image from 'next/image';
 import Filtter from '@/app/components/categoryfiter';
-function CategoryBody({ products }) {
+function CategoryBody({ products ,categoryid }) {
 
 
     const categoryIcon = products[0]?.categoryIcon || "🏷️";
@@ -128,6 +128,12 @@ function CategoryBody({ products }) {
                         <p className='text-sm sm:text-base'>এই ক্যাটাগরিতে কোনো পণ্য পাওয়া যায়নি।</p>
                     </div>
                 )}
+
+
+
+                 
+                    
+              
 
             </div>
         </section>

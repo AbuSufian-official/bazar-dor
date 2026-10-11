@@ -12,7 +12,7 @@ async function PriceUp() {
     } catch {
         filterUp = [];
     }
-    let a=filterUp.sort((a,b)=>b.today-a.today)
+    let a=filterUp.sort((a,b)=>b.change["pct"]-a.change["pct"])
     let abc=a.slice(0,6)
     
     return (
