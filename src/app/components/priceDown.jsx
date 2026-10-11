@@ -13,6 +13,8 @@ async function PriceDown() {
     } catch {
         filterDown = [];
     }
+    let a=filterDown.sort((a,b)=>a.today-b.today)
+    let abcc=a.slice(0,6)
     
     return (
         <>
@@ -26,7 +28,7 @@ async function PriceDown() {
                     </span>
                 </div>
                 <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3.5 sm:gap-4'>
-                    {filterDown.map((deta, index) => {
+                    {abcc.map((deta, index) => {
                         return (
                             <SMcard key={index} deta={deta} />
                         )
