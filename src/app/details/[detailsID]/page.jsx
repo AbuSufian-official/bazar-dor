@@ -5,7 +5,7 @@ async function ProductDetails({ params }) {
     let { detailsID } = await params;
     let deta = null;
     try {
-        let fetchDeta = await fetch(`https://api.abcz.workers.dev/api/bazardor/products/${detailsID}`);
+        let fetchDeta = await fetch(`https://openapi.programming-hero.com/api/bazardor/products/${detailsID}`);
         deta = await fetchDeta.json();
     } catch {
         deta = null;

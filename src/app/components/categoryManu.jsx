@@ -4,7 +4,7 @@ import React from 'react'
 async function CatagoryManu() {
     let data = [];
     try {
-        let fetchData = await fetch('https://api.abcz.workers.dev/api/bazardor/categories');
+        let fetchData = await fetch('https://openapi.programming-hero.com/api/bazardor/categories');
         let res = await fetchData.json();
         data = Array.isArray(res) ? res : [];
     } catch {

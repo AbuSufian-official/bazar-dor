@@ -1,5 +1,5 @@
 
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono,Noto_Sans_Bengali } from "next/font/google";
 import "./globals.css";
 import Navber from "./components/navber";
 import CatagoryManu from "./components/categoryManu";
@@ -7,9 +7,8 @@ import Marquee from "./components/marquee";
 import Footer from "./components/footer";
 import { Toaster } from "react-hot-toast";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+const NotoSansBengali = Noto_Sans_Bengali({
+  subsets: ["bengali","latin"],
 });
 
 const geistMono = Geist_Mono({
@@ -26,7 +25,7 @@ export default function RootLayout({ children }) {
   return (
     <html
       lang="bn"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased bg-[#F0F5F0]`}
+      className={`${NotoSansBengali.className} ${geistMono.variable} h-full antialiased bg-[#F0F5F0]`}
     >
       <body className="min-h-full flex flex-col">
         <Navber/>

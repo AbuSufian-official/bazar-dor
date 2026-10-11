@@ -6,7 +6,7 @@ async function Marquee() {
 
     let products = [];
     try {
-        let dataFetch = await fetch("https://api.abcz.workers.dev/api/bazardor/products");
+        let dataFetch = await fetch("https://openapi.programming-hero.com/api/bazardor/products");
         let deta = await dataFetch.json();
         products = Array.isArray(deta) ? deta : [];
     } catch {

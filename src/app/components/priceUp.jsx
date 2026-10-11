@@ -4,7 +4,7 @@ import SMcard from './smallCard';
 async function PriceUp() {
     let filterUp = [];
     try {
-        let fetchData = await fetch('https://api.abcz.workers.dev/api/bazardor/products');
+        let fetchData = await fetch('https://openapi.programming-hero.com/api/bazardor/products');
         let data = await fetchData.json();
         if (Array.isArray(data)) {
             filterUp = data.filter((n) => n?.change?.dir === "up");

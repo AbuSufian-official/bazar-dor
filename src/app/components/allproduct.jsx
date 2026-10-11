@@ -5,7 +5,7 @@ import SMcard from './smallCard';
 async function Allproduct() {
     let data = [];
     try {
-        let fetchData = await fetch('https://api.abcz.workers.dev/api/bazardor/products');
+        let fetchData = await fetch('https://openapi.programming-hero.com/api/bazardor/products');
         let res = await fetchData.json();
         data = Array.isArray(res) ? res : [];
     } catch {
