@@ -45,5 +45,16 @@ Market prices can change by location, seller, and date. Treat displayed
 prices as indicative information and confirm the current price with your
 local market before making a purchase.
 
+## How to run this project
+### Requirement
+- install node js
+- install vscode IDE
+
+### Follow Process
+- 1. Firstly clone this repo
+- 2. Open this project in code editor
+- 3. Open terminal and write npm install
+ DONE.. 
+
 ------------------------------------------------------------------------
 
